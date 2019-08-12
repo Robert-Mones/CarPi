@@ -15,8 +15,11 @@ music = None
 size = width, height = 800, 480
 screen = pygame.display.set_mode(flags=pygame.NOFRAME)
 font32 = pygame.font.SysFont("arial", 32)
+f32_pad = 8
 font24 = pygame.font.SysFont("arial", 24)
+f24_pad = 6
 font16 = pygame.font.SysFont("arial", 16)
+f16_pad = 4
 cur = (0, (0,0), False)
 
 # colors
@@ -100,21 +103,29 @@ while True:
                                 i = 0
                                 current_y = 3 + 40 # to account for the top UI
                                 for d in music_dirs:
-                                        current_y += 36
+                                        current_y += 24+(2*f24_pad)
                                         if y < current_y:
                                                 break
                                         for file in music_files[i]:
-                                                current_y += 28
+                                                current_y += 16+(2*f16_pad)
                                                 if y < current_y:
                                                         play_music(d+"/"+file)
                                                         break
                                         i += 1
                         elif state == SETTINGS:
-                                if y<84:
+                                if y<(40+3+f32_pad+32+f32_pad):
                                         if wifi_en:
-                                                os.popen("sudo rfkill block 0")
+                                                subprocess.run(["sudo","rfkill","block","0"])
                                         else:
-                                                os.popen("sudo rfkill unblock 0")
+                                                subprocess.run(["sudo","rfkill","unblock","0"])
+                                elif y>(480-(f32_pad+32+f32_pad)):
+                                        print(x,y)
+                                        if x<190:
+                                                subprocess.Popen(["sudo","reboot","now"])
+                                                exit()
+                                        elif x>640:
+                                                subprocess.Popen(["sudo","shutdown","now"])
+                                                exit()
                 
                 cur = (False,(x,y))
         
@@ -142,18 +153,20 @@ while True:
         ### NOTE: Top corner pixel of ui_right i(1,3)
         if state == MUSIC:
                 i = 0
-                current_y = 9
+                current_y = 3 + f32_pad
                 for d in music_dirs:
-                        text(d, 7, current_y, dest=right_ui, font=font24)
-                        current_y += 36
+                        text(d, 1+f24_pad, current_y, dest=right_ui, font=font24)
+                        current_y += 24+(2*f24_pad)
                         for file in music_files[i]:
-                                text(file.split(".")[0], 39, current_y, dest=right_ui, font=font16)
-                                current_y += 28
+                                text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16)
+                                current_y += 16+(2*f16_pad)
                         i += 1
         elif state == SETTINGS:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
                 text("WiFi - " + ("On" if wifi_en else "Off") + (", Connected" if wifi_con else ""),
-                     7, 9, dest=right_ui)
+                     1+f32_pad, 3+f32_pad, dest=right_ui)
+                text("Reboot", 1+f32_pad, (440-(32+f32_pad)), dest=right_ui)
+                text("Shutdown", 560, (440-(32+f32_pad)), dest=right_ui)
         
         screen.blit(left_ui, (0,40))
         screen.blit(right_ui, (88,40))
