@@ -81,6 +81,16 @@ def text(text, x, y, color=fore_color, center=False, dest=screen, font=font32):
 def rect(x,y,w,h,t=0,dest=screen):
         pygame.draw.rect(dest, fore_color, pygame.Rect(x,y,w,h),t)
 
+
+# left_ui
+left_ui.fill(back_color)
+pygame.draw.line(left_ui,fore_color,(0,0),(88,0),4)
+pygame.draw.line(right_ui,fore_color,(0,0),(0,440),1)
+for i in range(0,5):
+        rect(-1,(i*88)+1,88,88,2,dest=left_ui)
+        text(left_labels[i],43,(i*88)+45,center=True,dest=left_ui)
+
+
 while True:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
@@ -132,8 +142,7 @@ while True:
                 cur = (False,(x,y))
         
         # background
-        screen.fill(back_color)
-        left_ui.fill(back_color)
+        #left_ui.fill(back_color)
         right_ui.fill(back_color)
         top_ui.fill(back_color)
         
@@ -143,14 +152,13 @@ while True:
                 top_ui.blit(wifi_logo,wifi_r)
         
         # left ui
-        pygame.draw.line(left_ui,fore_color,(0,0),(88,0),4)
-        pygame.draw.line(right_ui,fore_color,(0,0),(0,440),1)
-        for i in range(0,5):
-                rect(-1,(i*88)+1,88,88,2,dest=left_ui)
-                text(left_labels[i],43,(i*88)+45,center=True,dest=left_ui)
+        #pygame.draw.line(left_ui,fore_color,(0,0),(88,0),4)
+        #pygame.draw.line(right_ui,fore_color,(0,0),(0,440),1)
+        #for i in range(0,5):
+        #        rect(-1,(i*88)+1,88,88,2,dest=left_ui)
+        #        text(left_labels[i],43,(i*88)+45,center=True,dest=left_ui)
 
         # right ui
-        #text(left_labels[right_state],2,2,dest=right_ui)
         pygame.draw.line(right_ui,fore_color,(0,0),(712,0),4)
         ### NOTE: Top corner pixel of ui_right i(1,3)
         if state == MUSIC:
