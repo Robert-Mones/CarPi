@@ -1,5 +1,7 @@
 import subprocess, os, sys, pygame
 
+pygameClock = pygame.time.Clock()
+
 NAV,MUSIC,CAMERA,XXX,SETTINGS = 0,1,2,3,4
 MUSIC_DIR = "/home/pi/Music/"
 
@@ -165,6 +167,7 @@ while True:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
                 text("WiFi - " + ("On" if wifi_en else "Off") + (", Connected" if wifi_con else ""),
                      1+f32_pad, 3+f32_pad, dest=right_ui)
+                text(str(round(pygameClock.get_fps()))+" fps", 600, 3+f32_pad, dest=right_ui)
                 text("Reboot", 1+f32_pad, (440-(32+f32_pad)), dest=right_ui)
                 text("Shutdown", 560, (440-(32+f32_pad)), dest=right_ui)
         
@@ -172,3 +175,4 @@ while True:
         screen.blit(right_ui, (88,40))
         screen.blit(top_ui, (0,0))
         pygame.display.flip()
+        pygameClock.tick()
