@@ -1,4 +1,4 @@
-import subprocess, os, sys, pygame
+import subprocess, os, sys, pygame, datetime
 
 pygameClock = pygame.time.Clock()
 
@@ -147,6 +147,10 @@ while True:
         top_ui.fill(back_color)
         
         # top ui
+        time = datetime.datetime.now()
+        text((str(time.hour) if time.hour <= 12 else str(time.hour-12)) + ":" + (str(time.minute) if time.minute>9 else "0"+str(time.minute)),
+                f24_pad, f24_pad, font=font24, dest=top_ui)
+        
         wifi_con = "RUNNING" in os.popen("ifconfig wlan0").read().split("\n")[0]
         if wifi_con:
                 top_ui.blit(wifi_logo,wifi_r)
