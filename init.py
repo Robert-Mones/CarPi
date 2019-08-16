@@ -4,6 +4,7 @@ pygameClock = pygame.time.Clock()
 
 NAV,MUSIC,CAMERA,XXX,SETTINGS = 0,1,2,3,4
 MUSIC_DIR = "/media/pi/USB/Music/"
+#MUSIC_DIR = "/home/pi/Music/"
 
 # init
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
@@ -51,17 +52,18 @@ music_dirs = os.listdir(MUSIC_DIR)
 music_files = []
 for d in music_dirs:
         music_files.append(os.listdir(MUSIC_DIR + d))
+selected_music_dir = None
 
 def play_music(file):
         global music
         if music != None:
                 kill_music()
-        print("play")
+        #print("play")
         music = subprocess.Popen(["mplayer",MUSIC_DIR+file])
 
 def kill_music():
         global music
-        print("kill")
+        #print("kill")
         if music == None:
                 return
         else:
@@ -101,28 +103,35 @@ while True:
                 x,y = cur[1]
                 
                 # narrow down by region
-                if y < 40:
+                if y < 40: # top_ui
                         print("top")
-                elif x < 88:
+                elif x < 88: # left_ui
                         for i in range(5):
                                 if y < (120+(80*i)):
                                         state=i
                                         break
-                else:
+                else: # right_ui
                         if state == NAV:
                                 kill_music()
                         elif state == MUSIC:
                                 i = 0
                                 current_y = 3 + 40 # to account for the top UI
                                 for d in music_dirs:
+                                        done = False
                                         current_y += 24+(2*f24_pad)
                                         if y < current_y:
+                                                selected_music_dir = (None if i == selected_music_dir else i)
+                                                print(selected_music_dir)
                                                 break
-                                        for file in music_files[i]:
-                                                current_y += 16+(2*f16_pad)
-                                                if y < current_y:
-                                                        play_music(d+"/"+file)
-                                                        break
+                                        if i == selected_music_dir:
+                                                for file in music_files[i]:
+                                                        current_y += 16+(2*f16_pad)
+                                                        if y < current_y:
+                                                                play_music(d+"/"+file)
+                                                                done = True
+                                                                break
+                                        if done:
+                                                break
                                         i += 1
                         elif state == SETTINGS:
                                 if y<(40+3+f32_pad+32+f32_pad):
@@ -163,9 +172,10 @@ while True:
                 for d in music_dirs:
                         text(d, 1+f24_pad, current_y, dest=right_ui, font=font24)
                         current_y += 24+(2*f24_pad)
-                        for file in music_files[i]:
-                                text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16)
-                                current_y += 16+(2*f16_pad)
+                        if i == selected_music_dir:
+                                for file in music_files[i]:
+                                        text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16)
+                                        current_y += 16+(2*f16_pad)
                         i += 1
         elif state == SETTINGS:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
