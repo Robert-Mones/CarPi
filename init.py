@@ -142,7 +142,6 @@ while True:
                 cur = (False,(x,y))
         
         # background
-        #left_ui.fill(back_color)
         right_ui.fill(back_color)
         top_ui.fill(back_color)
         
@@ -155,13 +154,6 @@ while True:
         if wifi_con:
                 top_ui.blit(wifi_logo,wifi_r)
         
-        # left ui
-        #pygame.draw.line(left_ui,fore_color,(0,0),(88,0),4)
-        #pygame.draw.line(right_ui,fore_color,(0,0),(0,440),1)
-        #for i in range(0,5):
-        #        rect(-1,(i*88)+1,88,88,2,dest=left_ui)
-        #        text(left_labels[i],43,(i*88)+45,center=True,dest=left_ui)
-
         # right ui
         pygame.draw.line(right_ui,fore_color,(0,0),(712,0),4)
         ### NOTE: Top corner pixel of ui_right i(1,3)
