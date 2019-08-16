@@ -52,18 +52,16 @@ music_dirs = os.listdir(MUSIC_DIR)
 music_files = []
 for d in music_dirs:
         music_files.append(os.listdir(MUSIC_DIR + d))
-selected_music_dir = None
+selected_music_dir = None if len(music_dirs)==0 else 0
 
 def play_music(file):
         global music
         if music != None:
                 kill_music()
-        #print("play")
         music = subprocess.Popen(["mplayer",MUSIC_DIR+file])
 
 def kill_music():
         global music
-        #print("kill")
         if music == None:
                 return
         else:
@@ -121,7 +119,6 @@ while True:
                                         current_y += 24+(2*f24_pad)
                                         if y < current_y:
                                                 selected_music_dir = (None if i == selected_music_dir else i)
-                                                print(selected_music_dir)
                                                 break
                                         if i == selected_music_dir:
                                                 for file in music_files[i]:
