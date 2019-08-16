@@ -8,7 +8,7 @@ CarPi is an addition to my car that I am developing which primarily consists of 
   - Wifi + Bluetooth connectivity
 - 7" HDMI Touchscreen display (from Adafruit; power and touchscreen data over USB connected to Pi)
 - HifiBerry AMP2 connected to built-in speakers
-  - Good sound quality + integrated 12V -> 5V power supply for the Pi, no power issues so far
+  - Good sound quality &  integrated 12V -> 5V power supply for the Pi, no power issues so far
 #### Software
 - Raspbian Stretch
 - Custom Python/Pygame application for playing music (and controlling some features of the Pi, such as Wifi)
@@ -45,7 +45,7 @@ Here is the list of parts you will need to build a base model CarPi:
 | HifiBerry Amp2                          | Amazon   | $48   | https://www.amazon.com/HiFiBerry-Hifiberry-AMP2-Amp2/dp/B076DLCRHF |
 
 That totals $157 from Adafruit and $48 from Amazon. You can cut $35 off your Adafruit purchase if you would like to use a Raspberry Pi 3B+ you already have.
->Note: You will also need a microSD card for the Raspberry Pi. Buy whatever size and brand fits you. This was tested with a 16GB microSD card (8GB might work). A power supply is recommended for setup and testing, but is not required (the Amp2 has a built-in power supply that will work as long as everything is connected properly).
+> Note: You will also need a microSD card for the Raspberry Pi. Buy whatever size and brand fits you. This was tested with a 16GB microSD card (8GB might work). A power supply is recommended for setup and testing, but is not required (the Amp2 has a built-in power supply that will work as long as everything is connected properly).
 
 The hardware setup is straightforward:
 1. Screw the standoffs onto the Amp2. (Place the male side of the standoffs through the Amp2 so the female side rests against the Raspberry Pi)
@@ -54,6 +54,10 @@ The hardware setup is straightforward:
 4. Connect the other ribbon cable to each USB plug
 5. Plug in the HDMI cable to the Raspberry Pi and the display (with the right-angle connector connected to the display)
 6. Connect the USB cable to the Raspberry Pi and the display (with the right-angle Micro USB connector connected to the display)
+7. Connect the + and - wires for each speaker to the Amp2
+8. Connect the 12V and GND wires from your car to the Amp2
+
+> Note: If you are connecting four speakers to the system, you will need to run them in parallel or series. With 4Ω speakers, connect the left speakers together in series (+ to -), which connects to the left channel, and the right speakers together in series, which connects to the right channel. With 8Ω speakers, connect the left speakers together in parallel (+ to +; - to -), which both connect to the left channel, and the right speakers together in parallel, which both connect to the right channel.
 
 #### Software
 There will be an image file in Releases. This file will allow you to flash an SD card with a working copy of the software. There is no additional setup, it should just work (assuming the hardware is setup properly). The root password is carpi.
