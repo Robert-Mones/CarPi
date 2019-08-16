@@ -3,7 +3,7 @@ import subprocess, os, sys, pygame, datetime
 pygameClock = pygame.time.Clock()
 
 NAV,MUSIC,CAMERA,XXX,SETTINGS = 0,1,2,3,4
-MUSIC_DIR = "/home/pi/Music/"
+MUSIC_DIR = "/media/pi/USB/Music/"
 
 # init
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
