@@ -104,7 +104,9 @@ for i in range(0,5):
 while True:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        stop_music()
+                        sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN: cur = (True, (event.pos[0]-10,event.pos[1]-15))
 
         if cur[0]: # if there's a new click
@@ -135,8 +137,8 @@ while True:
                                                 for file in music_files[i]:
                                                         current_y += 16+(2*f16_pad)
                                                         if y < current_y:
-                                                                playing_song = (i,j)
                                                                 play_music(d+"/"+file)
+                                                                playing_song = (i,j)
                                                                 done = True
                                                                 break
                                                         j += 1
@@ -159,9 +161,14 @@ while True:
                 
                 cur = (False,(x,y))
         
-        # test music
-        #if music.poll() == 0:
-        #        
+        # check to see if song is over
+        if music != None and music.poll() == 0:
+                next_song = (playing_song[0],playing_song[1]+1)
+                if len(music_files[next_song[0]]) > next_song[1]:
+                        play_music(music_dirs[next_song[0]] + "/" + music_files[next_song[0]][next_song[1]])
+                        playing_song = (next_song[0],next_song[1])
+                else:
+                        stop_music()
         
         # background
         right_ui.fill(back_color)
