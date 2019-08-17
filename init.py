@@ -28,6 +28,7 @@ cur = (0, (0,0), False)
 # colors
 white = 255,255,255
 black = 0,0,0
+blue = 0,0,255
 back_color = white
 fore_color = black
 
@@ -53,19 +54,20 @@ music_files = []
 for d in music_dirs:
         music_files.append(os.listdir(MUSIC_DIR + d))
 selected_music_dir = None if len(music_dirs)==0 else 0
+playing_song = (None,None)
 
 def play_music(file):
         global music
         if music != None:
-                kill_music()
+                stop_music()
         music = subprocess.Popen(["mplayer",MUSIC_DIR+file])
 
-def kill_music():
+def stop_music():
         global music
         if music == None:
                 return
         else:
-                music.kill()
+                music.terminate()
                 music = None
 
 def text(text, x, y, color=fore_color, center=False, dest=screen, font=font32):
@@ -110,7 +112,7 @@ while True:
                                         break
                 else: # right_ui
                         if state == NAV:
-                                kill_music()
+                                stop_music()
                         elif state == MUSIC:
                                 i = 0
                                 current_y = 3 + 40 # to account for the top UI
@@ -121,12 +123,15 @@ while True:
                                                 selected_music_dir = (None if i == selected_music_dir else i)
                                                 break
                                         if i == selected_music_dir:
+                                                j = 0
                                                 for file in music_files[i]:
                                                         current_y += 16+(2*f16_pad)
                                                         if y < current_y:
+                                                                playing_song = (i,j)
                                                                 play_music(d+"/"+file)
                                                                 done = True
                                                                 break
+                                                        j += 1
                                         if done:
                                                 break
                                         i += 1
@@ -137,7 +142,6 @@ while True:
                                         else:
                                                 subprocess.run(["sudo","rfkill","unblock","0"])
                                 elif y>(480-(f32_pad+32+f32_pad)):
-                                        print(x,y)
                                         if x<190:
                                                 subprocess.Popen(["sudo","reboot","now"])
                                                 exit()
@@ -146,6 +150,10 @@ while True:
                                                 exit()
                 
                 cur = (False,(x,y))
+        
+        # test music
+        #if music.poll() == 0:
+        #        
         
         # background
         right_ui.fill(back_color)
@@ -167,12 +175,16 @@ while True:
                 i = 0
                 current_y = 3 + f32_pad
                 for d in music_dirs:
-                        text(d, 1+f24_pad, current_y, dest=right_ui, font=font24)
+                        text(d, 1+f24_pad, current_y, dest=right_ui, font=font24,
+                             color=(blue if (i==playing_song[0] and i!=selected_music_dir) and playing_song[0]!=None else fore_color))
                         current_y += 24+(2*f24_pad)
                         if i == selected_music_dir:
+                                j = 0
                                 for file in music_files[i]:
-                                        text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16)
+                                        text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16,
+                                             color=(blue if j==playing_song[1] else fore_color))
                                         current_y += 16+(2*f16_pad)
+                                        j += 1
                         i += 1
         elif state == SETTINGS:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
