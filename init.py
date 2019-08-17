@@ -189,7 +189,7 @@ while True:
                                 j = 0
                                 for file in music_files[i]:
                                         text(file.split(".")[0], 40, current_y, dest=right_ui, font=font16,
-                                             color=(blue if j==playing_song[1] else fore_color))
+                                             color=(blue if i==playing_song[0] and j==playing_song[1] else fore_color))
                                         current_y += 16+(2*f16_pad)
                                         j += 1
                         i += 1
