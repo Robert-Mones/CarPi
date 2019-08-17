@@ -70,12 +70,13 @@ def play_music(file):
         music = subprocess.Popen(["mplayer",MUSIC_DIR+file])
 
 def stop_music():
-        global music
+        global music, playing_song
         if music == None:
                 return
         else:
                 music.terminate()
                 music = None
+                playing_song = (None,None)
 
 def text(text, x, y, color=fore_color, center=False, dest=screen, font=font32):
         text = font.render(text, True, color)
