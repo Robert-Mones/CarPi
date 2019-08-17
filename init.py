@@ -4,7 +4,7 @@ pygameClock = pygame.time.Clock()
 
 NAV,MUSIC,CAMERA,XXX,SETTINGS = 0,1,2,3,4
 MUSIC_DIR = "/home/pi/Music/"
-f = open("MUSIC_DIR","r")
+f = open("/home/pi/MUSIC_DIR","r")
 if f.mode == "r":
         x = f.read().strip()
         if "/" not in x:
