@@ -16,7 +16,7 @@ CarPi is an addition to my car that I am developing which primarily consists of 
 
 ## Planned Features (Near future)
 #### Hardware
-- Backup camera (170* FOV NoIR camera with CSI-HDMI extenders)
+- Backup camera (175* FOV NoIR camera with CSI-HDMI extenders)
 - MCP3008 ADC
 - USB Microphone
 - Adafruit Ultimate GPS hat for navigation data
@@ -45,7 +45,7 @@ Here is the list of parts you will need to build a base model CarPi:
 | HifiBerry Amp2                          | Amazon   | $48   | https://www.amazon.com/HiFiBerry-Hifiberry-AMP2-Amp2/dp/B076DLCRHF |
 
 That totals $157 from Adafruit and $48 from Amazon. You can cut $35 off your Adafruit purchase if you would like to use a Raspberry Pi 3B+ you already have.
-> Note: You will also need a microSD card for the Raspberry Pi. Buy whatever size and brand fits you. This was tested with a 16GB microSD card (8GB might work). A power supply is recommended for setup and testing, but is not required (the Amp2 has a built-in power supply that will work as long as everything is connected properly).
+> Note: You will also need a microSD card for the Raspberry Pi. Buy whatever size and brand fits you. This was tested with a 16GB microSD card (8GB might work). A wall power supply is recommended for setup and testing, but is not required (the Amp2 has a built-in power supply that will work as long as everything is connected properly).
 
 The hardware setup is straightforward:
 1. Screw the standoffs onto the Amp2. (Place the male side of the standoffs through the Amp2 so the female side rests against the Raspberry Pi)
@@ -58,6 +58,24 @@ The hardware setup is straightforward:
 8. Connect the 12V and GND wires from your car to the Amp2
 
 > Note: If you are connecting four speakers to the system, you will need to run them in parallel or series. With 4Ω speakers, connect the left speakers together in series (+ to -), which connects to the left channel, and the right speakers together in series, which connects to the right channel. With 8Ω speakers, connect the left speakers together in parallel (+ to +; - to -), which both connect to the left channel, and the right speakers together in parallel, which both connect to the right channel.
+> <br/> ![Parallel or Series Speakers](https://qph.fs.quoracdn.net/main-qimg-7294d343ed91f1c92c748c4abb63e1b2)
+> <br/> (Stolen from Quora: https://www.quora.com/How-do-I-properly-connect-3-speakers-in-parallel-series. Just follow the diagram for wiring two speakers per channel or read the answer if you need to wire three per channel)
 
 #### Software
 There will be an image file in Releases. This file will allow you to flash an SD card with a working copy of the software. There is no additional setup, it should just work (assuming the hardware is setup properly). The root password is carpi.
+
+## Advanced Setup
+This will describe the hardware and software steps for going beyond just the Pi, a touchscreen, and the amp.
+
+#### Hardware
+Right now the only "advanced" feature is the backup camera, which will be added to my car soon (and thus, the software package).
+
+| Name | Source | Price | Link |
+|---|---|---|---|
+| SainSmart NoIR 175* Wide-Angle Camera | Amazon | $30 | https://www.amazon.com/SainSmart-Camera-Module-Angle-Raspberry/dp/B075WT43CC |
+| Arducam CSI to HDMI Cable Extension | Amazon | $14 | https://www.amazon.com/Arducam-Extension-Module-Raspberry-Specific/dp/B06XDNBM63 |
+| AmazonBasics 15ft HDMI Cable | Amazon | $11 | https://www.amazon.com/AmazonBasics-Rated-Wall-Installation-Cable/dp/B014I8TOTC |
+
+> Note: Any HDMI cable should work, but I need one that is 15ft long. I will test this and a few other cables and update this file with my results.
+
+This will add $55 to the price (entirely from Amazon), but it could vary depending on the HDMI cable you choose to buy.
