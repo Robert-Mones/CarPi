@@ -66,8 +66,12 @@ selected_music_dir = None if len(music_dirs)==0 else 0
 playing_song = (None,None)
 
 # camera
-camera = pygame.camera.Camera("/dev/video0",(640,480))
-camera.start()
+camera = None
+try:
+        camera = pygame.camera.Camera("/dev/video0",(640,480))
+        camera.start()
+except:
+        camera = None
 
 def play_music(file):
         global music
@@ -152,6 +156,12 @@ while True:
                                         if done:
                                                 break
                                         i += 1
+                        elif state == CAMERA:
+                                try:
+                                        camera.stop()
+                                        camera.start()
+                                except:
+                                        camera = None
                         elif state == SETTINGS:
                                 if y<(40+3+f32_pad+32+f32_pad):
                                         if wifi_en:
@@ -209,9 +219,15 @@ while True:
                                         j += 1
                         i += 1
         elif state == CAMERA:
-                img = camera.get_image()
-                img = pygame.transform.scale(img,(712,440))
-                right_ui.blit(img,(0,0))
+                if camera == None:
+                        text("Camera disabled",1+f24_pad,3+f24_pad,font=font24,dest=right_ui)
+                else:
+                        try:
+                                img = camera.get_image()
+                                img = pygame.transform.scale(img,(712,440))
+                                right_ui.blit(img,(0,0))
+                        except:
+                                camera = None
         elif state == SETTINGS:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
                 text("WiFi - " + ("On" if wifi_en else "Off") + (", Connected" if wifi_con else ""),
