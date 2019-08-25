@@ -1,4 +1,4 @@
-import subprocess, os, sys, pygame, datetime
+import subprocess, os, sys, pygame, pygame.camera, datetime, webbrowser
 
 pygameClock = pygame.time.Clock()
 
@@ -17,6 +17,7 @@ if f.mode == "r":
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
 pygame.init()
 pygame.mixer.quit()
+pygame.camera.init()
 pygame.mouse.set_visible(False)
 
 music = None
@@ -56,12 +57,17 @@ state = MUSIC
 wifi_con = False
 wifi_en = False
 
+# music
 music_dirs = os.listdir(MUSIC_DIR)
 music_files = []
 for d in music_dirs:
         music_files.append(os.listdir(MUSIC_DIR + d))
 selected_music_dir = None if len(music_dirs)==0 else 0
 playing_song = (None,None)
+
+# camera
+camera = pygame.camera.Camera("/dev/video0",(640,480))
+camera.start()
 
 def play_music(file):
         global music
@@ -122,7 +128,8 @@ while True:
                                         break
                 else: # right_ui
                         if state == NAV:
-                                stop_music()
+                                #stop_music()
+                                webbrowser.open("http://www.pandora.com", autoraise=False)
                         elif state == MUSIC:
                                 i = 0
                                 current_y = 3 + 40 # to account for the top UI
@@ -201,6 +208,10 @@ while True:
                                         current_y += 16+(2*f16_pad)
                                         j += 1
                         i += 1
+        elif state == CAMERA:
+                img = camera.get_image()
+                img = pygame.transform.scale(img,(712,440))
+                right_ui.blit(img,(0,0))
         elif state == SETTINGS:
                 wifi_en = "UP" in os.popen("ifconfig wlan0").read().split("\n")[0]
                 text("WiFi - " + ("On" if wifi_en else "Off") + (", Connected" if wifi_con else ""),
