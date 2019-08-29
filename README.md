@@ -1,28 +1,39 @@
 ## Overview
 
-CarPi is an addition to my car that I am developing which primarily consists of a Raspberry Pi 3 B+ and a 7" touchscreen display.
+CarPi is an addition to my car that I am developing which primarily consists of a Raspberry Pi 3 B+, a 7" touchscreen display, and an amp.
 
 ## Current Features
 #### Hardware
 - Raspberry Pi 3B+
   - Wifi + Bluetooth connectivity
-- 7" HDMI Touchscreen display (from Adafruit; power and touchscreen data over USB connected to Pi)
-- HifiBerry AMP2 connected to built-in speakers
+- 7" HDMI Touchscreen display
+  - Power and touchscreen data over USB connected to Pi
+- HifiBerry AMP2
+  - Connected to built-in car speakers
   - Good sound quality &  integrated 12V -> 5V power supply for the Pi, no power issues so far
+- Wide-angle NoIR Camera
+  - 175* FOV and no IR filter
+  - CSI-HDMI Extension Boards
+  - 15ft HDMI Cable
 #### Software
 - Raspbian Stretch
-- Custom Python/Pygame application for playing music (and controlling some features of the Pi, such as Wifi)
+- Custom Python/Pygame application
+  - Music interface
+  - Camera feed
+  - Settings (wifi, restart, and shutdown)
 - RetroPie install (currently running only a PS1 emulator)
 
 ## Planned Features (Near future)
 #### Hardware
-- Backup camera (175* FOV NoIR camera with CSI-HDMI extenders)
 - MCP3008 ADC
+  - Temperature sensor
 - USB Microphone
-- Adafruit Ultimate GPS hat for navigation data
+- Adafruit Ultimate GPS Hat
 #### Software
-- Camera feed in Pygame interface
-- Steering wheel button connection (via ADC)
+- Read from ADC
+  - Steering wheel button control
+  - Battery (alternator) voltage
+  - Temperature sensor
 - Voice commands
 - Custom navigation interface using TomTom navigation
 
@@ -48,7 +59,7 @@ That totals $157 from Adafruit and $48 from Amazon. You can cut $35 off your Ada
 > Note: You will also need a microSD card for the Raspberry Pi. Buy whatever size and brand fits you. This was tested with a 16GB microSD card (8GB might work). A wall power supply is recommended for setup and testing, but is not required (the Amp2 has a built-in power supply that will work as long as everything is connected properly).
 
 The hardware setup is straightforward:
-1. Screw the standoffs onto the Amp2. (Place the male side of the standoffs through the Amp2 so the female side rests against the Raspberry Pi)
+1. Screw the standoffs onto the Amp2. Place the male side of the standoffs through the Amp2 so the female side rests against the Raspberry Pi.
 2. Plug the Amp2 into the GPIO header of the Raspberry Pi
 3. Connect one of the ribbon cables to each HDMI plug
 4. Connect the other ribbon cable to each USB plug
@@ -62,13 +73,13 @@ The hardware setup is straightforward:
 > <br/> (Stolen from Quora: https://www.quora.com/How-do-I-properly-connect-3-speakers-in-parallel-series. Just follow the diagram for wiring two speakers per channel or read the answer if you need to wire three per channel)
 
 #### Software
-There will be an image file in Releases. This file will allow you to flash an SD card with a working copy of the software. There is no additional setup, it should just work (assuming the hardware is setup properly). The root password is carpi.
+There is not an easy setup package ready yet, but you may clone this repository and run init.py. Make sure you have *mplayer* installed.
 
 ## Advanced Setup
 This will describe the hardware and software steps for going beyond just the Pi, a touchscreen, and the amp.
 
 #### Hardware
-Right now the only "advanced" feature is the backup camera, which will be added to my car soon (and thus, the software package).
+Right now the only "advanced" feature is the backup camera, which was recently added to my car (and the software package).
 
 | Name | Source | Price | Link |
 |---|---|---|---|
@@ -77,5 +88,7 @@ Right now the only "advanced" feature is the backup camera, which will be added 
 | AmazonBasics 15ft HDMI Cable | Amazon | $11 | https://www.amazon.com/AmazonBasics-Rated-Wall-Installation-Cable/dp/B014I8TOTC |
 
 > Note: Any HDMI cable should work, but I need one that is 15ft long. I will test this and a few other cables and update this file with my results.
+> 
+> I have tested the AmazonBasics cable listed above and it worked well. Only thing to note about the cable is it is rather thick, heavy, and hard to bend/shape. Keep this in mind if you will need to make tight bends.
 
 This will add $55 to the price (entirely from Amazon), but it could vary depending on the HDMI cable you choose to buy.
